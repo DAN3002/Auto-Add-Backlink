@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -21,12 +23,16 @@ public class Auto_Add_URL extends javax.swing.JFrame
 {        
 // Var
     public static JPopupMenu Menu;
+    public static ArrayList<String> List = new ArrayList<String>();
 // -------------------------------------------------------------------------- //    
     
     public Auto_Add_URL() throws FontFormatException, IOException 
     {
         initComponents();
         Set_GUI();
+        Get_Data();
+        System.out.println(Convert("hello hi hi hihihi hi hi hello", "hi", "test"));
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -265,6 +271,51 @@ public class Auto_Add_URL extends javax.swing.JFrame
         // Add and show
         Menu.add(jmenu);
         Menu.show(com, 30, 80);
+    }
+    
+    public static void Get_Data() throws FileNotFoundException
+    {
+        FileInputStream fi = new FileInputStream(new File("Data\\DB\\Library.txt"));
+        Scanner scan = new Scanner(fi);
+            while(scan.hasNext())
+            {
+                List.add(scan.nextLine());
+            }
+        scan.close();
+    }
+    
+    public static String Convert(String input, String find, String url)
+    {        
+        int pos = input.indexOf(find);
+        int length = find.length();
+        StringBuilder sb = new StringBuilder(input);
+        
+        
+        while(pos != -1)
+        {
+            if( pos + length == sb.toString().length() || pos == 0) //
+            {
+                StringBuilder extra = new StringBuilder("");
+                extra.append(sb.substring(0, pos)).append("[URL=\"").append(url).append("\"]").append(find).append("[/URL]").append(sb.substring(pos + length));
+                sb = extra;
+                pos = sb.indexOf(find, pos + length + url.length() + 15);
+            }
+            else
+            {
+                if((sb.charAt(pos + length) + "").equals(" ") && (sb.charAt(pos - 1) + "").equals(" "))
+                {
+                    StringBuilder extra = new StringBuilder("");
+                    extra.append(sb.substring(0, pos)).append("[URL=\"").append(url).append("\"]").append(find).append("[/URL]").append(sb.substring(pos + length));
+                    sb = extra;
+                    pos = sb.indexOf(find, pos + length + url.length() + 15);                    
+                }
+                else
+                {
+                    pos = sb.indexOf(find, pos + length);                
+                }
+            }
+        }
+        return sb.toString();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Convert;
