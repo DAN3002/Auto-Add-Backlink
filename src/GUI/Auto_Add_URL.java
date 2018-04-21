@@ -1,5 +1,7 @@
-package auto_add_url;
+package GUI;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
@@ -12,9 +14,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 public class Auto_Add_URL extends javax.swing.JFrame 
-{
+{        
+// Var
+    public static JPopupMenu Menu;
+// -------------------------------------------------------------------------- //    
+    
     public Auto_Add_URL() throws FontFormatException, IOException 
     {
         initComponents();
@@ -84,6 +92,33 @@ public class Auto_Add_URL extends javax.swing.JFrame
         Label_Input.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Label_Input.setText("Input : ");
 
+        Library.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LibraryMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                LibraryMouseExited(evt);
+            }
+        });
+
+        Copy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                CopyMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                CopyMouseExited(evt);
+            }
+        });
+
+        Convert.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ConvertMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ConvertMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -142,6 +177,30 @@ public class Auto_Add_URL extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void LibraryMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LibraryMouseEntered
+        Show_PopUp(evt.getComponent(), "Open Library !");
+    }//GEN-LAST:event_LibraryMouseEntered
+
+    private void CopyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CopyMouseEntered
+        Show_PopUp(evt.getComponent(), "Copy !");
+    }//GEN-LAST:event_CopyMouseEntered
+
+    private void ConvertMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseEntered
+        Show_PopUp(evt.getComponent(), "Start Convert !");
+    }//GEN-LAST:event_ConvertMouseEntered
+
+    private void ConvertMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseExited
+        Menu.setVisible(false);
+    }//GEN-LAST:event_ConvertMouseExited
+
+    private void LibraryMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LibraryMouseExited
+        Menu.setVisible(false);
+    }//GEN-LAST:event_LibraryMouseExited
+
+    private void CopyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CopyMouseExited
+        Menu.setVisible(false);
+    }//GEN-LAST:event_CopyMouseExited
+
     public static void main(String args[]) 
     {
         Set_LookAndFeel();
@@ -192,6 +251,20 @@ public class Auto_Add_URL extends javax.swing.JFrame
             java.util.logging.Logger.getLogger(Auto_Add_URL.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
                 
+    }
+    
+    public static void Show_PopUp(Component com, String text)
+    {
+        Menu = new JPopupMenu();
+        
+        // Set JMenuItem
+        JMenuItem  jmenu = new JMenuItem (text);
+        jmenu.setEnabled(false);
+        jmenu.setForeground(Color.BLACK);
+        
+        // Add and show
+        Menu.add(jmenu);
+        Menu.show(com, 30, 80);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Convert;
