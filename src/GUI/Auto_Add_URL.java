@@ -7,6 +7,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 public class Auto_Add_URL extends javax.swing.JFrame 
@@ -31,7 +33,6 @@ public class Auto_Add_URL extends javax.swing.JFrame
         initComponents();
         Set_GUI();
         Get_Data();
-        System.out.println(Convert("hello hi hi hihihi hi hi hello", "hi", "test"));
         
     }
 
@@ -108,6 +109,9 @@ public class Auto_Add_URL extends javax.swing.JFrame
         });
 
         Copy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CopyMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 CopyMouseEntered(evt);
             }
@@ -117,6 +121,9 @@ public class Auto_Add_URL extends javax.swing.JFrame
         });
 
         Convert.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ConvertMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 ConvertMouseEntered(evt);
             }
@@ -206,6 +213,25 @@ public class Auto_Add_URL extends javax.swing.JFrame
     private void CopyMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CopyMouseExited
         Menu.setVisible(false);
     }//GEN-LAST:event_CopyMouseExited
+
+    private void ConvertMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseClicked
+        String input = Text_Input.getText();
+        for(int i = 0; i < List.size(); i++)
+        {
+            String[] split = List.get(i).split("_");
+            input = Convert(input, split[0], split[1]);            
+        }
+        
+        Text_Output.setText(input);
+    }//GEN-LAST:event_ConvertMouseClicked
+
+    private void CopyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CopyMouseClicked
+        StringSelection output = new StringSelection(Text_Output.getText());
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(output, null);
+        
+        // Show Message
+        JOptionPane.showMessageDialog(null, "Done !");
+    }//GEN-LAST:event_CopyMouseClicked
 
     public static void main(String args[]) 
     {
