@@ -26,14 +26,15 @@ public class Auto_Add_URL extends javax.swing.JFrame
 // Var
     public static JPopupMenu Menu;
     public static ArrayList<String> List = new ArrayList<String>();
+    public static Auto_Add_URL conection;
 // -------------------------------------------------------------------------- //    
     
     public Auto_Add_URL() throws FontFormatException, IOException 
     {
         initComponents();
         Set_GUI();
-        Get_Data();
-        
+        Get_Data();        
+        conection = this;
     }
 
     @SuppressWarnings("unchecked")
