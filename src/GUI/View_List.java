@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -12,6 +13,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -19,6 +22,7 @@ public class View_List extends javax.swing.JFrame
 {
 // Var
     public static ArrayList<String> List = new ArrayList<>();
+    public static JPopupMenu Menu;
 // -------------------------------------------------------------------------- //    
     public View_List() throws FileNotFoundException 
     {
@@ -68,6 +72,30 @@ public class View_List extends javax.swing.JFrame
         Table.setRowHeight(50);
         jScrollPane1.setViewportView(Table);
 
+        Home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                HomeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                HomeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                HomeMouseExited(evt);
+            }
+        });
+
+        Add.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AddMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                AddMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -112,6 +140,30 @@ public class View_List extends javax.swing.JFrame
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void AddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseEntered
+        Show_PopUp(evt.getComponent(), "Add new");
+    }//GEN-LAST:event_AddMouseEntered
+
+    private void AddMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseExited
+        Menu.setVisible(false);
+    }//GEN-LAST:event_AddMouseExited
+
+    private void AddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddMouseClicked
+
+    private void HomeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseEntered
+        Show_PopUp(evt.getComponent(), "Back");
+    }//GEN-LAST:event_HomeMouseEntered
+
+    private void HomeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseExited
+        Menu.setVisible(false);
+    }//GEN-LAST:event_HomeMouseExited
+
+    private void HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HomeMouseClicked
 
     public static void main(String args[]) 
     {
@@ -197,6 +249,20 @@ public class View_List extends javax.swing.JFrame
             List.add(scan.nextLine());
         }
         scan.close();
+    }
+    
+    public static void Show_PopUp(Component com, String text)
+    {
+        Menu = new JPopupMenu();
+        
+        // Set JMenuItem
+        JMenuItem  jmenu = new JMenuItem (text);
+        jmenu.setEnabled(false);
+        jmenu.setForeground(Color.BLACK);
+        
+        // Add and show
+        Menu.add(jmenu);
+        Menu.show(com, 30, 80);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Add;
