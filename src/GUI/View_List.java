@@ -8,11 +8,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,15 +27,15 @@ public class View_List extends javax.swing.JFrame
     public static ArrayList<String> List = new ArrayList<>();
     public static JPopupMenu Menu;
     public static JPopupMenu Menu_PopUp;
-    public static Boolean Check_get = true;
     public static Component com;
+    public static View_List conection;
 // -------------------------------------------------------------------------- //    
     public View_List() throws FileNotFoundException, IOException, ClassNotFoundException
     {
         initComponents();
         Set_GUI();
         load_Data();
-
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -64,6 +61,7 @@ public class View_List extends javax.swing.JFrame
         Add = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         Table.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
         Table.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -236,10 +234,9 @@ public class View_List extends javax.swing.JFrame
                 return false; 
             }              
         };  
-        Table.setModel(model);
-        
-        
+        Table.setModel(model);                
     }
+    
     public void Set_GUI()
     {
         // Set Table
