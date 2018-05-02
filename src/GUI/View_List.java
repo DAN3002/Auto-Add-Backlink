@@ -1,20 +1,26 @@
 package GUI;
 
+import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -23,12 +29,16 @@ public class View_List extends javax.swing.JFrame
 // Var
     public static ArrayList<String> List = new ArrayList<>();
     public static JPopupMenu Menu;
+    public static JPopupMenu Menu_PopUp;
+    public static Boolean Check_get = true;
+    public static Component com;
 // -------------------------------------------------------------------------- //    
-    public View_List() throws FileNotFoundException 
+    public View_List() throws FileNotFoundException, IOException, ClassNotFoundException
     {
         initComponents();
         Set_GUI();
         load_Data();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -68,8 +78,14 @@ public class View_List extends javax.swing.JFrame
 
             }
         ));
+        Table.setFocusCycleRoot(true);
         Table.setGridColor(new java.awt.Color(0, 0, 0));
         Table.setRowHeight(50);
+        Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                TableMouseEntered(evt);
+            }
+        });
         jScrollPane1.setViewportView(Table);
 
         Home.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -165,6 +181,10 @@ public class View_List extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_HomeMouseClicked
 
+    private void TableMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseEntered
+        com = evt.getComponent();
+    }//GEN-LAST:event_TableMouseEntered
+
     public static void main(String args[]) 
     {
         Set_LookAndFeel();
@@ -173,6 +193,10 @@ public class View_List extends javax.swing.JFrame
                 try {
                     new View_List().setVisible(true);
                 } catch (FileNotFoundException ex) {
+                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
                     Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -200,25 +224,36 @@ public class View_List extends javax.swing.JFrame
                 
     }
     
-    public void load_Data() throws FileNotFoundException
+    public void load_Data() throws FileNotFoundException, IOException, ClassNotFoundException
     {
         Input_Data();    
         
-        TableModel model = new DefaultTableModel(load_Row(), load_Column());        
+        TableModel model = new DefaultTableModel(load_Row(), load_Column())
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) 
+            {
+                return false; 
+            }              
+        };  
         Table.setModel(model);
         
+        
     }
-    
     public void Set_GUI()
     {
         // Set Table
         Table.setShowGrid(true);
         Table.setOpaque(true);
-        Table.getTableHeader().setReorderingAllowed(false);           
+        Table.getTableHeader().setReorderingAllowed(false);    
+        Table.getSelectionModel().addListSelectionListener(selection_action);
         
         // Set Icon
         Add.setIcon(new ImageIcon("Data\\Image\\Add_Icon.png"));
         Home.setIcon(new ImageIcon("Data\\Image\\Home_Icon.png"));
+        
+        // PopUp
+        SetUP_MenuPopUp();
     }
     
     public static Object[] load_Column()
@@ -238,19 +273,33 @@ public class View_List extends javax.swing.JFrame
         return ob;
     }
     
-    public static void Input_Data() throws FileNotFoundException
+    public static void Input_Data() throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        List.removeAll(List);
-        
-        FileInputStream fi = new FileInputStream(new File("Data\\DB\\Library.txt"));
-        Scanner scan = new Scanner(fi);
-        while(scan.hasNext())        
-        {
-            List.add(scan.nextLine());
-        }
-        scan.close();
+        List = (ArrayList<String>) Object_Factory.Input_Object("Data\\DB\\Library.db");
     }
     
+// Listener
+    public ListSelectionListener selection_action = new ListSelectionListener() 
+    {
+        @Override
+        public void valueChanged(ListSelectionEvent e)
+        {
+            int location = Table.getSelectedRow() * 50;
+            Menu_PopUp.show(com, 580, location);
+        }
+    };
+    
+// Void for Menu_PopUp
+    public static void Delete()
+    {
+        
+    }
+    
+    public static void Open_Web()
+    {
+        
+    }    
+// For PopUo    
     public static void Show_PopUp(Component com, String text)
     {
         Menu = new JPopupMenu();
@@ -263,6 +312,37 @@ public class View_List extends javax.swing.JFrame
         // Add and show
         Menu.add(jmenu);
         Menu.show(com, 30, 80);
+    }
+// Table PopUp   
+    public static void SetUP_MenuPopUp()
+    {
+        Menu_PopUp = new JPopupMenu();
+        JMenuItem Delete = new JMenuItem("Delete");
+        JMenuItem Open_Web = new JMenuItem("Open URL");
+// Add Action
+        ActionListener Delete_action = new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                Delete();
+            }
+        };
+        Delete.addActionListener(Delete_action);
+        
+        ActionListener Open_action = new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                Open_Web();
+            }
+        };        
+        Open_Web.addActionListener(Open_action);
+        
+        Menu_PopUp.add(Delete);
+        Menu_PopUp.add(Open_Web);
+        System.out.println("đ");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Add;

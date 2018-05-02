@@ -1,5 +1,6 @@
 package GUI;
 
+import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -28,7 +29,7 @@ public class Auto_Add_URL extends javax.swing.JFrame
     public static ArrayList<String> List = new ArrayList<String>();
 // -------------------------------------------------------------------------- //    
     
-    public Auto_Add_URL() throws FontFormatException, IOException 
+    public Auto_Add_URL() throws FontFormatException, IOException, FileNotFoundException, ClassNotFoundException 
     {
         initComponents();
         Set_GUI();
@@ -245,6 +246,8 @@ public class Auto_Add_URL extends javax.swing.JFrame
                     Logger.getLogger(Auto_Add_URL.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
                     Logger.getLogger(Auto_Add_URL.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Auto_Add_URL.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -298,15 +301,16 @@ public class Auto_Add_URL extends javax.swing.JFrame
         Menu.show(com, 30, 80);
     }
     
-    public static void Get_Data() throws FileNotFoundException
+    public static void Get_Data() throws FileNotFoundException, IOException, ClassNotFoundException
     {
         FileInputStream fi = new FileInputStream(new File("Data\\DB\\Library.txt"));
         Scanner scan = new Scanner(fi);
-            while(scan.hasNext())
-            {
+        while(scan.hasNext())
+        {
                 List.add(scan.nextLine());
-            }
-        scan.close();
+        }
+        Object_Factory.Output_Object(List, "Data\\DB\\Library.db");
+        List = (ArrayList<String>) Object_Factory.Input_Object("Data\\DB\\Library.db");
     }
     
     public static String Convert(String input, String find, String url)
