@@ -18,6 +18,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -32,8 +33,9 @@ public class Auto_Add_URL extends javax.swing.JFrame
     public Auto_Add_URL() throws FontFormatException, IOException, FileNotFoundException, ClassNotFoundException 
     {
         initComponents();
-        Set_GUI();
-        Get_Data();        
+        set_GUI();
+        get_Data();      
+        //Object_Factory.output_Object(new ArrayList<String>() , "Data\\DB\\Library.db");
     }
 
     @SuppressWarnings("unchecked")
@@ -100,6 +102,9 @@ public class Auto_Add_URL extends javax.swing.JFrame
         Label_Input.setText("Input : ");
 
         Library.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LibraryMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 LibraryMouseEntered(evt);
             }
@@ -191,15 +196,15 @@ public class Auto_Add_URL extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void LibraryMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LibraryMouseEntered
-        Show_PopUp(evt.getComponent(), "Open Library !");
+        show_PopUp(evt.getComponent(), "Open Library !");
     }//GEN-LAST:event_LibraryMouseEntered
 
     private void CopyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CopyMouseEntered
-        Show_PopUp(evt.getComponent(), "Copy !");
+        show_PopUp(evt.getComponent(), "Copy !");
     }//GEN-LAST:event_CopyMouseEntered
 
     private void ConvertMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseEntered
-        Show_PopUp(evt.getComponent(), "Start Convert !");
+        show_PopUp(evt.getComponent(), "Start convert !");
     }//GEN-LAST:event_ConvertMouseEntered
 
     private void ConvertMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseExited
@@ -219,7 +224,7 @@ public class Auto_Add_URL extends javax.swing.JFrame
         for(int i = 0; i < List.size(); i++)
         {
             String[] split = List.get(i).split("_");
-            input = Convert(input, split[0], split[1]);            
+            input = convert(input, split[0], split[1]);            
         }
         
         Text_Output.setText(input);
@@ -229,13 +234,28 @@ public class Auto_Add_URL extends javax.swing.JFrame
         StringSelection output = new StringSelection(Text_Output.getText());
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(output, null);
         
-        // Show Message
+        // show Message
         JOptionPane.showMessageDialog(null, "Done !");
     }//GEN-LAST:event_CopyMouseClicked
 
+    private void LibraryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LibraryMouseClicked
+        JFrame jf;
+        try {
+            jf = new View_List();
+            jf.setLocation(this.getLocation());
+            jf.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Auto_Add_URL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        dispose();
+    }//GEN-LAST:event_LibraryMouseClicked
+
     public static void main(String args[]) 
     {
-        Set_LookAndFeel();
+        set_LookAndFeel();
         java.awt.EventQueue.invokeLater(new Runnable() 
         {
             public void run() 
@@ -253,20 +273,20 @@ public class Auto_Add_URL extends javax.swing.JFrame
         });
     }
     
-    public void Set_GUI() throws FileNotFoundException, FontFormatException, IOException
+    public void set_GUI() throws FileNotFoundException, FontFormatException, IOException
     {
-        // Set Text Font
-        Font font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("Data\\Font\\ShowcaseSans.ttf"))).deriveFont(Font.PLAIN, 60);
+        // set Text Font
+        Font font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("Data\\Font\\showcaseSans.ttf"))).deriveFont(Font.PLAIN, 60);
         Label_Input.setFont(font);
         Label_Output.setFont(font);
         
-        // Set icon
+        // set icon
         Convert.setIcon(new ImageIcon("Data\\Image\\Convert_Icon.png"));
         Library.setIcon(new ImageIcon("Data\\Image\\Library_Icon.png"));
         Copy.setIcon(new ImageIcon("Data\\Image\\Copy_Icon.png"));
     }
 
-    public static void Set_LookAndFeel()
+    public static void set_LookAndFeel()
     {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -287,11 +307,11 @@ public class Auto_Add_URL extends javax.swing.JFrame
                 
     }
     
-    public static void Show_PopUp(Component com, String text)
+    public static void show_PopUp(Component com, String text)
     {
         Menu = new JPopupMenu();
         
-        // Set JMenuItem
+        // set JMenuItem
         JMenuItem  jmenu = new JMenuItem (text);
         jmenu.setEnabled(false);
         jmenu.setForeground(Color.BLACK);
@@ -301,19 +321,19 @@ public class Auto_Add_URL extends javax.swing.JFrame
         Menu.show(com, 30, 80);
     }
     
-    public static void Get_Data() throws FileNotFoundException, IOException, ClassNotFoundException
+    public static void get_Data() throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        FileInputStream fi = new FileInputStream(new File("Data\\DB\\Library.txt"));
+        FileInputStream fi = new FileInputStream(new File("Data\\DB\\Library.db"));
         Scanner scan = new Scanner(fi);
         while(scan.hasNext())
         {
                 List.add(scan.nextLine());
         }
-        Object_Factory.Output_Object(List, "Data\\DB\\Library.db");
-        List = (ArrayList<String>) Object_Factory.Input_Object("Data\\DB\\Library.db");
+        Object_Factory.output_Object(List, "Data\\DB\\Library.db");
+        List = (ArrayList<String>) Object_Factory.input_Object("Data\\DB\\Library.db");
     }
     
-    public static String Convert(String input, String find, String url)
+    public static String convert(String input, String find, String url)
     {        
         int pos = input.indexOf(find);
         int length = find.length();

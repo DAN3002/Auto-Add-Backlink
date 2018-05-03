@@ -1,5 +1,7 @@
 package GUI;
 
+import Model.Object_Factory;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Toolkit;
@@ -19,8 +21,8 @@ public class Add_New extends javax.swing.JFrame
     public Add_New() throws FileNotFoundException, FontFormatException, IOException, UnsupportedFlavorException
     {
         initComponents();        
-        Set_GUI();
-        Get_Data();
+        set_GUI();
+        get_Data();
     }
 
     @SuppressWarnings("unchecked")
@@ -47,12 +49,27 @@ public class Add_New extends javax.swing.JFrame
         Input_Word.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
 
         Input_URL.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        Input_URL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Input_URLMouseClicked(evt);
+            }
+        });
 
         Back.setFont(new java.awt.Font("iCiel Showcase Sans", 0, 24)); // NOI18N
         Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackActionPerformed(evt);
+            }
+        });
 
         Add.setFont(new java.awt.Font("iCiel Showcase Sans", 0, 24)); // NOI18N
         Add.setText("Add");
+        Add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddActionPerformed(evt);
+            }
+        });
 
         Text_1.setFont(new java.awt.Font("iCiel Showcase Sans", 1, 24)); // NOI18N
         Text_1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -108,9 +125,43 @@ public class Add_New extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
+        String word = Input_Word.getText();
+        String url = Input_URL.getText();
+        if(check_URL(url))
+        {
+           View_List.List.add(word + "_" + url);      
+           
+           try {
+               Object_Factory.output_Object(View_List.List, "Data\\DB\\Library.db");
+               View_List.conection.load_Data();               
+           } catch (IOException ex) {
+               Logger.getLogger(Add_New.class.getName()).log(Level.SEVERE, null, ex);
+           } catch (ClassNotFoundException ex) {
+               Logger.getLogger(Add_New.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           
+           back();
+        }
+        else
+        {
+            Input_URL.setForeground(Color.red);
+        }
+
+    }//GEN-LAST:event_AddActionPerformed
+
+    private void Input_URLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Input_URLMouseClicked
+        Input_URL.setForeground(Color.BLACK);
+        Input_URL.selectAll();
+    }//GEN-LAST:event_Input_URLMouseClicked
+
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
+        back();
+    }//GEN-LAST:event_BackActionPerformed
+
     public static void main(String args[]) 
     {        
-        Set_LookAndFeel();
+        set_LookAndFeel();
         java.awt.EventQueue.invokeLater(new Runnable() 
         {           
             public void run() 
@@ -128,7 +179,7 @@ public class Add_New extends javax.swing.JFrame
         });
     }
 
-    public static void Set_LookAndFeel()
+    public static void set_LookAndFeel()
     {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -148,7 +199,7 @@ public class Add_New extends javax.swing.JFrame
         }        
     }
     
-    public void Set_GUI() throws FileNotFoundException, FontFormatException, IOException
+    public void set_GUI() throws FileNotFoundException, FontFormatException, IOException
     {
         // Set Text Font
         Font font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("Data\\Font\\ShowcaseSans.ttf"))).deriveFont(Font.PLAIN, 24);
@@ -159,17 +210,17 @@ public class Add_New extends javax.swing.JFrame
         Back.setFont(font);
     }
       
-    public void Get_Data() throws UnsupportedFlavorException, IOException
+    public void get_Data() throws UnsupportedFlavorException, IOException
     {
         String Clipboard_Copy = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-        if(Check_URL(Clipboard_Copy))
+        if(check_URL(Clipboard_Copy))
         {
             Input_URL.setText(Clipboard_Copy);
-            Input_URL.setSelectionStart(0);
+            Input_URL.selectAll();
         }
     }
     
-    public static Boolean Check_URL(String url)
+    public static Boolean check_URL(String url)
     {
         Boolean output = true;
         try 
@@ -182,6 +233,10 @@ public class Add_New extends javax.swing.JFrame
         return output;
     }
             
+    public void back()
+    {
+        dispose();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Add;
     private javax.swing.JButton Back;

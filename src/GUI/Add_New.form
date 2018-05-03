@@ -110,6 +110,9 @@
           <Font name="Arial" size="20" style="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Input_URLMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="Back">
       <Properties>
@@ -118,6 +121,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Back"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BackActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="Add">
       <Properties>
@@ -126,6 +132,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="Text_1">
       <Properties>
