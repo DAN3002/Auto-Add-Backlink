@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -34,8 +33,7 @@ public class Auto_Add_URL extends javax.swing.JFrame
     {
         initComponents();
         set_GUI();
-        get_Data();      
-        //Object_Factory.output_Object(new ArrayList<String>() , "Data\\DB\\Library.db");
+        get_Data();   
     }
 
     @SuppressWarnings("unchecked")
@@ -193,6 +191,7 @@ public class Auto_Add_URL extends javax.swing.JFrame
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void LibraryMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LibraryMouseEntered
@@ -274,7 +273,7 @@ public class Auto_Add_URL extends javax.swing.JFrame
     }
     
     public void set_GUI() throws FileNotFoundException, FontFormatException, IOException
-    {
+    {        
         // set Text Font
         Font font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("Data\\Font\\showcaseSans.ttf"))).deriveFont(Font.PLAIN, 60);
         Label_Input.setFont(font);
@@ -323,13 +322,6 @@ public class Auto_Add_URL extends javax.swing.JFrame
     
     public static void get_Data() throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        FileInputStream fi = new FileInputStream(new File("Data\\DB\\Library.db"));
-        Scanner scan = new Scanner(fi);
-        while(scan.hasNext())
-        {
-                List.add(scan.nextLine());
-        }
-        Object_Factory.output_Object(List, "Data\\DB\\Library.db");
         List = (ArrayList<String>) Object_Factory.input_Object("Data\\DB\\Library.db");
     }
     

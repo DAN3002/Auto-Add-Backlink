@@ -236,6 +236,8 @@ public class Add_New extends javax.swing.JFrame
     public void back()
     {
         dispose();
+        View_List.Check_Add = true;
+        View_List.conection.requestFocus();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Add;

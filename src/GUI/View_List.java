@@ -3,6 +3,7 @@ package GUI;
 import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -12,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,14 +35,14 @@ public class View_List extends javax.swing.JFrame
     public static JPopupMenu Menu_PopUp;
     public static Component com;
     public static View_List conection;
+    public static Boolean Check_Add = true;
 // -------------------------------------------------------------------------- //    
     public View_List() throws FileNotFoundException, IOException, ClassNotFoundException
     {
         initComponents();
         set_GUI();
         load_Data();
-        conection = this;
-        
+        conection = this;        
     }
 
     @SuppressWarnings("unchecked")
@@ -168,17 +171,21 @@ public class View_List extends javax.swing.JFrame
     }//GEN-LAST:event_AddMouseExited
 
     private void AddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseClicked
-        JFrame jf;
-        try {
-            jf = new Add_New();
-            jf.setLocation(this.getLocation());
-            jf.setVisible(true);
-        } catch (FontFormatException ex) {
-            Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+        if(Check_Add)
+        {
+            JFrame jf;
+            try {
+                jf = new Add_New();
+                jf.setLocation(this.getLocation());
+                jf.setVisible(true);
+            } catch (FontFormatException ex) {
+                Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedFlavorException ex) {
+                Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            Check_Add = false;
         }
         
     }//GEN-LAST:event_AddMouseClicked
@@ -192,7 +199,16 @@ public class View_List extends javax.swing.JFrame
     }//GEN-LAST:event_HomeMouseExited
 
     private void HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeMouseClicked
-        // TODO add your handling code here:
+        try {
+            new Auto_Add_URL().setVisible(true);
+        } catch (FontFormatException ex) {
+            Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dispose();
     }//GEN-LAST:event_HomeMouseClicked
 
     private void TableMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseEntered
@@ -240,7 +256,7 @@ public class View_List extends javax.swing.JFrame
     
     public void load_Data() throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        input_Data();    
+        input_Data(); 
         
         TableModel model = new DefaultTableModel(load_Row(), load_Column())
         {
@@ -253,7 +269,7 @@ public class View_List extends javax.swing.JFrame
         Table.setModel(model);                
     }
     
-    public void set_GUI()
+    public void set_GUI() throws IOException, FileNotFoundException, ClassNotFoundException
     {
         // Set Table
         Table.setShowGrid(true);
@@ -303,14 +319,18 @@ public class View_List extends javax.swing.JFrame
     };
     
 // Void for Menu_PopUp
-    public static void delete()
+    public void delete() throws IOException, FileNotFoundException, ClassNotFoundException
     {
-        
+        List.remove(Table.getSelectedRow());
+        Object_Factory.output_Object(List, "Data\\DB\\Library.db");
+        Menu_PopUp.setVisible(false);
+        load_Data();
     }
     
-    public static void open_Web()
+    public  void open_Web() throws MalformedURLException, IOException
     {
-        
+        String link = (List.get(Table.getSelectedRow())).split("_")[1];
+        Desktop.getDesktop().browse(URI.create(link));
     }    
 // For PopUo    
     public static void show_PopUp(Component com, String text)
@@ -327,7 +347,7 @@ public class View_List extends javax.swing.JFrame
         Menu.show(com, 30, 80);
     }
 // Table PopUp   
-    public static void set_MenuPopUp()
+    public void set_MenuPopUp() throws IOException, FileNotFoundException, ClassNotFoundException, MalformedURLException
     {
         Menu_PopUp = new JPopupMenu();
         JMenuItem Delete = new JMenuItem("Delete");
@@ -338,7 +358,13 @@ public class View_List extends javax.swing.JFrame
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                delete();
+                try {
+                    delete();
+                } catch (IOException ex) {
+                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         Delete.addActionListener(Delete_action);
@@ -348,14 +374,17 @@ public class View_List extends javax.swing.JFrame
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                open_Web();
+                try {
+                    open_Web();
+                } catch (IOException ex) {
+                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };        
         Open_Web.addActionListener(Open_action);
         
         Menu_PopUp.add(Delete);
         Menu_PopUp.add(Open_Web);
-        System.out.println("đ");
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Add;
