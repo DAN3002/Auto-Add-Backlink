@@ -332,7 +332,7 @@ public class View_List extends javax.swing.JFrame
         String link = (List.get(Table.getSelectedRow())).split("_")[1];
         Desktop.getDesktop().browse(URI.create(link));
     }    
-// For PopUo    
+// For PopUp
     public static void show_PopUp(Component com, String text)
     {
         Menu = new JPopupMenu();

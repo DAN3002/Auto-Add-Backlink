@@ -212,11 +212,15 @@ public class Add_New extends javax.swing.JFrame
       
     public void get_Data() throws UnsupportedFlavorException, IOException
     {
-        String Clipboard_Copy = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-        if(check_URL(Clipboard_Copy))
+        try {
+            String Clipboard_Copy = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+            if(check_URL(Clipboard_Copy))
+            {
+                Input_URL.setText(Clipboard_Copy);
+                Input_URL.selectAll();
+            }
+        } catch (Exception e) 
         {
-            Input_URL.setText(Clipboard_Copy);
-            Input_URL.selectAll();
         }
     }
     
