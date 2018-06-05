@@ -85,8 +85,17 @@ public class Auto_Add_URL extends javax.swing.JFrame
         Text_Input.setForeground(new java.awt.Color(255, 255, 255));
         Text_Input.setLineWrap(true);
         Text_Input.setRows(5);
+        Text_Input.setText("Type Here ...");
         Text_Input.setWrapStyleWord(true);
         Text_Input.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
+        Text_Input.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Text_InputMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Text_InputMouseExited(evt);
+            }
+        });
         jScrollPane3.setViewportView(Text_Input);
 
         Label_Output.setFont(new java.awt.Font("iCiel Showcase Sans", 0, 60)); // NOI18N
@@ -251,6 +260,21 @@ public class Auto_Add_URL extends javax.swing.JFrame
         
         dispose();
     }//GEN-LAST:event_LibraryMouseClicked
+
+    private void Text_InputMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Text_InputMouseEntered
+        if(Text_Input.getText().equals("Type Here ..."))
+        {
+            Text_Input.setText("");
+            Text_Input.setRequestFocusEnabled(true);
+        }
+    }//GEN-LAST:event_Text_InputMouseEntered
+
+    private void Text_InputMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Text_InputMouseExited
+        if(Text_Input.getText().equals(""))
+        {
+            Text_Input.setText("Type Here ...");            
+        }
+    }//GEN-LAST:event_Text_InputMouseExited
 
     public static void main(String args[]) 
     {

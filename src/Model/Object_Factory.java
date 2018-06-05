@@ -13,9 +13,9 @@ public class Object_Factory implements Serializable
     public static Object input_Object(String path) throws FileNotFoundException, IOException, ClassNotFoundException
     {
         ObjectInputStream fis = new ObjectInputStream(new FileInputStream(path));
-        Object output =  fis.readObject();        
+        Object output =  fis.readObject(); 
         fis.close();
-        return output;
+        return output;        
     }
     public static void output_Object(Object ob, String path) throws FileNotFoundException, IOException
     {
