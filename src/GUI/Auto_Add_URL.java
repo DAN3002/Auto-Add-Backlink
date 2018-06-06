@@ -1,5 +1,6 @@
 package GUI;
 
+import Model.Key_Listener;
 import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Component;
@@ -9,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -212,7 +214,7 @@ public class Auto_Add_URL extends javax.swing.JFrame
     }//GEN-LAST:event_CopyMouseEntered
 
     private void ConvertMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseEntered
-        show_PopUp(evt.getComponent(), "Start convert !");
+        show_PopUp(evt.getComponent(), "Start convert! (Enter)");
     }//GEN-LAST:event_ConvertMouseEntered
 
     private void ConvertMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConvertMouseExited
@@ -307,6 +309,11 @@ public class Auto_Add_URL extends javax.swing.JFrame
         Convert.setIcon(new ImageIcon("Data\\Image\\Convert_Icon.png"));
         Library.setIcon(new ImageIcon("Data\\Image\\Library_Icon.png"));
         Copy.setIcon(new ImageIcon("Data\\Image\\Copy_Icon.png"));
+        
+        // Add Key_Listener
+        KeyListener key_listener = new Key_Listener(Text_Input, Text_Output);
+        this.addKeyListener(key_listener);
+        Text_Input.addKeyListener(key_listener);
     }
 
     public static void set_LookAndFeel()
