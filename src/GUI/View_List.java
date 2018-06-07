@@ -32,7 +32,6 @@ public class View_List extends javax.swing.JFrame
 // Var
     public static ArrayList<String> List = new ArrayList<>();
     public static JPopupMenu Menu;
-    public static JPopupMenu Menu_PopUp;
     public static Component com;
     public static View_List conection;
     public static Boolean Check_Add = true;
@@ -212,7 +211,7 @@ public class View_List extends javax.swing.JFrame
     }//GEN-LAST:event_HomeMouseClicked
 
     private void TableMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseEntered
-        com = evt.getComponent();
+        com = evt.getComponent();        
     }//GEN-LAST:event_TableMouseEntered
 
     public static void main(String args[]) 
@@ -280,9 +279,6 @@ public class View_List extends javax.swing.JFrame
         // Set Icon
         Add.setIcon(new ImageIcon("Data\\Image\\Add_Icon.png"));
         Home.setIcon(new ImageIcon("Data\\Image\\Home_Icon.png"));
-        
-        // PopUp
-        set_MenuPopUp();
     }
     
     public static Object[] load_Column()
@@ -314,7 +310,6 @@ public class View_List extends javax.swing.JFrame
         public void valueChanged(ListSelectionEvent e)
         {
             int location = Table.getSelectedRow() * 50;
-            Menu_PopUp.show(com, 580, location);
         }
     };
     
@@ -323,7 +318,6 @@ public class View_List extends javax.swing.JFrame
     {
         List.remove(Table.getSelectedRow());
         Object_Factory.output_Object(List, "Data\\DB\\Library.db");
-        Menu_PopUp.setVisible(false);
         load_Data();
     }
     
@@ -347,45 +341,6 @@ public class View_List extends javax.swing.JFrame
         Menu.show(com, 30, 80);
     }
 // Table PopUp   
-    public void set_MenuPopUp() throws IOException, FileNotFoundException, ClassNotFoundException, MalformedURLException
-    {
-        Menu_PopUp = new JPopupMenu();
-        JMenuItem Delete = new JMenuItem("Delete");
-        JMenuItem Open_Web = new JMenuItem("Open URL");
-// Add Action
-        ActionListener Delete_action = new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                try {
-                    delete();
-                } catch (IOException ex) {
-                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        };
-        Delete.addActionListener(Delete_action);
-        
-        ActionListener Open_action = new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                try {
-                    open_Web();
-                } catch (IOException ex) {
-                    Logger.getLogger(View_List.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        };        
-        Open_Web.addActionListener(Open_action);
-        
-        Menu_PopUp.add(Delete);
-        Menu_PopUp.add(Open_Web);
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Add;
     private javax.swing.JLabel Home;
