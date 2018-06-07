@@ -1,6 +1,6 @@
 package GUI;
 
-import Model.Key_Listener;
+import Model.Key_Listener_Input;
 import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Component;
@@ -310,8 +310,8 @@ public class Auto_Add_URL extends javax.swing.JFrame
         Library.setIcon(new ImageIcon("Data\\Image\\Library_Icon.png"));
         Copy.setIcon(new ImageIcon("Data\\Image\\Copy_Icon.png"));
         
-        // Add Key_Listener
-        KeyListener key_listener = new Key_Listener(Text_Input, Text_Output);
+        // Add Key_Listener_Input
+        KeyListener key_listener = new Key_Listener_Input(Text_Input, Text_Output);
         this.addKeyListener(key_listener);
         Text_Input.addKeyListener(key_listener);
     }

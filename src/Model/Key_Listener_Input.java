@@ -2,19 +2,20 @@ package Model;
 
 import static GUI.Auto_Add_URL.List;
 import static GUI.Auto_Add_URL.convert;
+import GUI.View_List;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
 
-public class Key_Listener extends KeyAdapter    
+public class Key_Listener_Input extends KeyAdapter      
 {
     private JTextArea Text_Input;
     private JTextArea Text_Output;
 
-    public Key_Listener(JTextArea Text_Input, JTextArea Text_Output) 
+    public Key_Listener_Input(JTextArea Text_Input, JTextArea Text_Output) 
     {
         this.Text_Input = Text_Input;
-        this.Text_Output = Text_Output;
+        this.Text_Output = Text_Output;       
     }
     
         

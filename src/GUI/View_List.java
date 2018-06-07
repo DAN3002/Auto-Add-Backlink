@@ -1,5 +1,6 @@
 package GUI;
 
+import Model.Key_Listener_Table;
 import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Component;
@@ -9,8 +10,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,8 +22,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -65,6 +63,7 @@ public class View_List extends javax.swing.JFrame
         Table = new javax.swing.JTable();
         Home = new javax.swing.JLabel();
         Add = new javax.swing.JLabel();
+        Text = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -116,13 +115,19 @@ public class View_List extends javax.swing.JFrame
             }
         });
 
+        Text.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        Text.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Text.setText("Ctrl + C: Open Web | Delete: Delete");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -132,11 +137,13 @@ public class View_List extends javax.swing.JFrame
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Text, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(Add, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(122, 122, 122)
@@ -274,11 +281,14 @@ public class View_List extends javax.swing.JFrame
         Table.setShowGrid(true);
         Table.setOpaque(true);
         Table.getTableHeader().setReorderingAllowed(false);    
-        Table.getSelectionModel().addListSelectionListener(selection_action);
         
         // Set Icon
         Add.setIcon(new ImageIcon("Data\\Image\\Add_Icon.png"));
         Home.setIcon(new ImageIcon("Data\\Image\\Home_Icon.png"));
+        
+        // Add Listener for Table
+        KeyListener listener = new Key_Listener_Table(Table);
+        Table.addKeyListener(listener);
     }
     
     public static Object[] load_Column()
@@ -303,29 +313,6 @@ public class View_List extends javax.swing.JFrame
         List = (ArrayList<String>) Object_Factory.input_Object("Data\\DB\\Library.db");
     }
     
-// Listener
-    public ListSelectionListener selection_action = new ListSelectionListener() 
-    {
-        @Override
-        public void valueChanged(ListSelectionEvent e)
-        {
-            int location = Table.getSelectedRow() * 50;
-        }
-    };
-    
-// Void for Menu_PopUp
-    public void delete() throws IOException, FileNotFoundException, ClassNotFoundException
-    {
-        List.remove(Table.getSelectedRow());
-        Object_Factory.output_Object(List, "Data\\DB\\Library.db");
-        load_Data();
-    }
-    
-    public  void open_Web() throws MalformedURLException, IOException
-    {
-        String link = (List.get(Table.getSelectedRow())).split("_")[1];
-        Desktop.getDesktop().browse(URI.create(link));
-    }    
 // For PopUp
     public static void show_PopUp(Component com, String text)
     {
@@ -345,6 +332,7 @@ public class View_List extends javax.swing.JFrame
     private javax.swing.JLabel Add;
     private javax.swing.JLabel Home;
     private javax.swing.JTable Table;
+    private javax.swing.JLabel Text;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
