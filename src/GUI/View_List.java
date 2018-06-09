@@ -4,7 +4,6 @@ import Model.Key_Listener_Table;
 import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -13,8 +12,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -117,7 +114,7 @@ public class View_List extends javax.swing.JFrame
 
         Text.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         Text.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Text.setText("Ctrl + C: Open Web | Delete: Delete");
+        Text.setText("Ctrl + O: Open Web | Delete: Delete");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -277,6 +274,10 @@ public class View_List extends javax.swing.JFrame
     
     public void set_GUI() throws IOException, FileNotFoundException, ClassNotFoundException
     {
+        // Set Title
+        this.setTitle("Auto Add URL 1.0.0");
+        
+        
         // Set Table
         Table.setShowGrid(true);
         Table.setOpaque(true);
@@ -289,6 +290,11 @@ public class View_List extends javax.swing.JFrame
         // Add Listener for Table
         KeyListener listener = new Key_Listener_Table(Table);
         Table.addKeyListener(listener);
+        
+        // Set Icon
+        Toolkit tool = Toolkit.getDefaultToolkit();
+        Image image = tool.getImage("Data\\Image\\Icon.png");
+        this.setIconImage(image);          
     }
     
     public static Object[] load_Column()

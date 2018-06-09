@@ -4,6 +4,7 @@ import Model.Object_Factory;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -201,6 +202,9 @@ public class Add_New extends javax.swing.JFrame
     
     public void set_GUI() throws FileNotFoundException, FontFormatException, IOException
     {
+        // Set Title
+        this.setTitle("Auto Add URL 1.0.0");        
+        
         // Set Text Font
         Font font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("Data\\Font\\ShowcaseSans.ttf"))).deriveFont(Font.PLAIN, 24);
         Text_1.setFont(font);              
@@ -208,6 +212,11 @@ public class Add_New extends javax.swing.JFrame
         Text_3.setFont(font);
         Add.setFont(font);
         Back.setFont(font);
+        
+        // Set Icon
+        Toolkit tool = Toolkit.getDefaultToolkit();
+        Image image = tool.getImage("Data\\Image\\Icon.png");
+        this.setIconImage(image);          
     }
       
     public void get_Data() throws UnsupportedFlavorException, IOException

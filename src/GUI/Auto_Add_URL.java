@@ -300,6 +300,9 @@ public class Auto_Add_URL extends javax.swing.JFrame
     
     public void set_GUI() throws FileNotFoundException, FontFormatException, IOException
     {        
+        // Set Title
+        this.setTitle("Auto Add URL 1.0.0");
+        
         // set Text Font
         Font font = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("Data\\Font\\showcaseSans.ttf"))).deriveFont(Font.PLAIN, 60);
         Label_Input.setFont(font);
@@ -314,6 +317,11 @@ public class Auto_Add_URL extends javax.swing.JFrame
         KeyListener key_listener = new Key_Listener_Input(Text_Input, Text_Output);
         this.addKeyListener(key_listener);
         Text_Input.addKeyListener(key_listener);
+        
+        // Set Icon
+        Toolkit tool = Toolkit.getDefaultToolkit();
+        Image image = tool.getImage("Data\\Image\\Icon.png");
+        this.setIconImage(image);  
     }
 
     public static void set_LookAndFeel()

@@ -2,7 +2,6 @@ package Model;
 
 import static GUI.Auto_Add_URL.List;
 import static GUI.Auto_Add_URL.convert;
-import GUI.View_List;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;

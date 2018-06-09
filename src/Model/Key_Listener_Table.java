@@ -55,9 +55,13 @@ public class Key_Listener_Table extends KeyAdapter
         }
         
         // When user Press "Ctrl + C"
-        if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) 
+        if ((e.getKeyCode() == KeyEvent.VK_O) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) 
         {
-            open_Web();
+            try {
+                open_Web();
+            } catch (IOException ex) {
+                Logger.getLogger(Key_Listener_Table.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
